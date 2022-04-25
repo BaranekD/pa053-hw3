@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,12 +20,19 @@ public class RestApiController {
     }
 
     @RequestMapping(value = "/endpoint", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public int createCase(){
-//        ObjectMapper mapper = new ObjectMapper();
-//
-//        ObjectNode result = mapper.createObjectNode();
-//        result.
-
-        return 6;
+    public Integer handle(
+            @RequestParam(value = "queryAirportTemp", required = false) String queryAirportTemp,
+            @RequestParam(value = "queryStockPrice", required = false) String queryStockPrice,
+            @RequestParam(value = "queryEval", required = false) String queryEval
+    ) {
+        if (queryAirportTemp != null && queryStockPrice == null && queryEval == null) {
+            return restApiService.airportTemp(queryAirportTemp);
+        } else if (queryAirportTemp == null && queryStockPrice != null && queryEval == null) {
+            return  restApiService.stockPrice(queryStockPrice);
+        } else if (queryAirportTemp == null && queryStockPrice == null && queryEval != null) {
+            return  restApiService.evalExpression(queryEval);
+        } else {
+            return null;
+        }
     }
 }
