@@ -25,6 +25,6 @@ public class RestApiController {
 //        ObjectNode result = mapper.createObjectNode();
 //        result.
 
-        return 3;
+        return 6;
     }
 }
